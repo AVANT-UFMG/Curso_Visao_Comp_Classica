@@ -1,4 +1,5 @@
 #OpenCV
+
 Open Source Computer Vision Library é uma biblioteca que inclui diversos algoritmos de visão computacional. Atualmente possui mais de 500 funções, pode ser utilizada em diversas linguagens de programação (C++, Python, Ruby, Java…) e é usada para diversos tipos de análise em imagens e vídeos, como  detecção, tracking e reconhecimento facial, edição de fotos e vídeos, detecção e análise de textos, etc.
 
 OpenCV é liberado sob uma licença de BSD e daqui é livre para o uso acadêmico e comercial. Possui interfaces C++, C, Python e Java e suporta Windows, Linux, Mac OS, iOS e Android. OpenCV foi projetado para eficiência computacional e com um forte foco em aplicações em tempo real. Escrito em C/C++ otimizado, a biblioteca pode aproveitar o processamento multi-core. Adotado em todo o mundo, OpenCV tem mais de 47 mil pessoas da comunidade de usuários e número estimado de downloads superior a 6 milhões. O uso varia de arte interativa, a inspeção de minas, costura mapas na web ou através de robótica avançada.
@@ -67,6 +68,7 @@ void *UpdateFrame(void *arg)
 }
 
 ##Detecção
+
 uma função simples e rápida que verifica se o objeto existe na frame capturada.
 A detecção ou trigger é uma área retangular no centro da imagem que testa a média da cor/tom.
 Se a comparação for verdadeira a frame capturada contém o objeto e podemos inspecioná-la.
@@ -97,6 +99,7 @@ try
 }
 
 ##Pré-processamento
+
 onde filtramos a imagem cinza e transformamos em uma imagem binária preto e branco, onde o objeto é branco e o fundo preto.
 
 void processing(Mat &frame)
@@ -131,6 +134,7 @@ void processing(Mat &frame)
 }
 
 ##Canal  
+	
   Canal R – Os canais RGB, são imagens em tons de cinza com profundidade de 8 bits cada, neste caso escolhemos o RED que contém a melhor informação dos tons do biscoito, note que ele é cinza mas representa o vermelho de 0 á 100% na imagem colorida.
   Threshold – Função que binariza a imagem, ou seja, transforma uma imagem em tons de cinza em uma imagem preto e branco, note que ainda existem alguns ruídos na imagem.
   Cleanup – Remoção de ruídos (Reduz a imagem na metade do tamanho, passa filtros de transformação morfológica de abrir e fechar e depois amplia a imagem para o tamanho original).
