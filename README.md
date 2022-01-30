@@ -1,80 +1,165 @@
-# Curso Visão Computacional Clássica
+#OpenCV
+Open Source Computer Vision Library é uma biblioteca que inclui diversos algoritmos de visão computacional. Atualmente possui mais de 500 funções, pode ser utilizada em diversas linguagens de programação (C++, Python, Ruby, Java…) e é usada para diversos tipos de análise em imagens e vídeos, como  detecção, tracking e reconhecimento facial, edição de fotos e vídeos, detecção e análise de textos, etc.
 
-Curso sobre Visão Computacional Clássica desenvolvido pela equipe de Visão Computacional da Avant. O curso é criado de forma colaborativa visando instruir futuros membros da Visão Computacional.
+OpenCV é liberado sob uma licença de BSD e daqui é livre para o uso acadêmico e comercial. Possui interfaces C++, C, Python e Java e suporta Windows, Linux, Mac OS, iOS e Android. OpenCV foi projetado para eficiência computacional e com um forte foco em aplicações em tempo real. Escrito em C/C++ otimizado, a biblioteca pode aproveitar o processamento multi-core. Adotado em todo o mundo, OpenCV tem mais de 47 mil pessoas da comunidade de usuários e número estimado de downloads superior a 6 milhões. O uso varia de arte interativa, a inspeção de minas, costura mapas na web ou através de robótica avançada.
 
-Neste curso você irá aprender:
+O OpenCV é escrito em C++ e sua interface principal é em C++, mas ainda mantém uma interface C mais antiga, menos abrangente, embora extensa. Todos os novos desenvolvimentos e algoritmos aparecem na interface C++. Existem ligações em Python (por exemplo, métodos OpenCV cv.line, OpenCV cv2.cvtcolor, OpenCV cv2.circle), Java e MATLAB/OCTAVE. 
 
-1. O que é a Visão Computacional Classica
-1. OpenCV
-1. Dominio e Processamento Imagens
-1. Identificar áreas de interesse
-1. Kernel, Filtros e Transformações
+Um dos únicos pontos de atenção ao se escolher entre usar ou não o OpenCV está nos recursos de hardware do projeto. Em geral, algoritmos que lidam com tratamento e processamento de imagens demandam muita memória e processamento do computador ao qual rodam. Ainda, quanto maiores (com mais resolução e qualidade) as imagens utilizadas forem, mais os algoritmos de tratamento e processamento de imagens vão trabalhar e, portanto, mais recursos computacionais serão exigidos.
+Pelo fato de existir uma infinidade de possibilidades de projetos com visão computacional e OpenCV, existe também uma infinidade de casos de uso de recursos computacionais diferentes para projetos com OpenCV. Por essa razão, fica muito difícil (para não dizer impossível) estabelecer uma configuração mínima exigida universal para o OpenCV, uma vez que esta seria altamente dependente do uso desejado. Sendo assim, numa visão mais prática, é altamente aconselhável fazer medições de desempenho enquanto se roda o OpenCV em seu projeto, de forma a se ter noção prática do quanto o OpenCV está demandando do hardware de seu projeto numa dada tarefa e se será necessário um upgrade de hardware ou não.
+Para se ter uma referência prática, projetos que envolvam aquisição, tratamento e processamento de imagens (estáticas ou vídeo) para fins de detecção e reconhecimento facial, detecção e obtenção de textos em imagens e buscar e contar objetos numa imagem normalmente podem ser executados com OpenCV em uma Raspberry Pi 3B tranquilamente. Só reforçando: nesses casos, é altamente aconselhável a utilização de um cooler para evitar que os cores do processador cheguem a temperaturas muito altas (o que pode diminuir a vida útil do mesmo).
 
-## Roadmap
 
-O curso ainda se encontra em desenvolvimento, acompanhe nossa avanço:
+Para iniciar o código usando openCV em Python, fazemos:
 
-- [ ] 0- Como contribuir com o Repositório - joaopedro-mf
-- [ ] 1- Introdução a Visão Computacional
-- [ ] 2- Visao Computacional Classica x Deep Learning
-- [ ] 3- Introdução ao OpenCv / Instalação
-- [ ] 4- Dominio Imagem : grayscale, RGB images
-- [ ] 5- Pipeline de Visão Computacional: Computer Vision pipeline
-- [ ] 6- Pre-Processing: one-hot encoding, integer encoding, normalization, rescaling\*
-- [ ] 7- Identifying Areas of Interest: intensity, frequency, Fourier transforms
-- [ ] 8- Convoluções de Kernel : convolução, kernels vs filters
-- [ ] 9- Filtros: high-pass vs low-pass filters, Sobel filter, Gaussian blur
-- [ ] 10- Hough Transforms: Hough line detection
+import numpy as np
+import cv2 as cv
 
-## Dinâmica do Curso
+A seguir temos a parametrização da camera, realizada antes de capturar a imagem.
 
-O curso está dividido em módulos, que irão tratar de tópicos essenciais para o desenvolvimento e entendimento dos conceitos d Visão Computacional Classica. Cada tópico será composto por um conjunto de links que irão abordar sobre o tema e ao final será proposto alguns desafios para fixação do conteúdo.
+//comando do sistema (video1, tempo de exposição manual, ganho do sensor manual)
 
-O guia se dará dentro da plataforma do GitHub, onde cada módulo será representado por uma Issue dentro do repositório onde você realizará o guia. Siga as instruções dentro da cada Issue para ir avançando no guia.
+int status = system( "v4l2-ctl -d /dev/video1 -c gain_automatic=0 -c gain=0 -c auto_exposure=1 -c exposure=30 -c power_line_frequency=1" );
 
----
+Agora, temos como abrir a conexão com a camera para capturar a imagem:
 
-## Vamos começar!
+int main(int, char**)
+{
+// video 1, exposure manual, gain manual
+int status = system( "v4l2-ctl -d /dev/video1 -c gain_automatic=0 -c gain=0 -c auto_exposure=1 -c exposure=30 -c power_line_frequency=1" );
+	
 
-Siga os passos abaixo para iniciar o curso:
+double start=0;
+	double end=0;
+	//iniciar captura camera 1
+capture.open(1);
+	
+pthread_mutex_init(&frameLocker, NULL);
+	pthread_t UpdateThread;
+	pthread_create(&UpdateThread, NULL, UpdateFrame, NULL);
+    	
+//loop principal
+	for (;;)
+	{(...)}
 
-### 1. **Faça o Fork do projeto atual**
+Para capturar um frame, por outro lado, usamos:
 
-Fork este projeto para seu repositório para conseguir iniciar o curso
+/capture
+void *UpdateFrame(void *arg)
+{
+	for(;;)
+	{
+    	try
+    	{
+        	Mat tempFrame = Mat::zeros( frame.size(), CV_8UC3 );
+        	capture >> tempFrame;
+       	 
+        	pthread_mutex_lock(&frameLocker);
+        	if (!tempFrame.empty())
+            	frame = tempFrame;
+        	pthread_mutex_unlock(&frameLocker);
+    	}
+    	catch(Exception &e)
+    	{
+        	cout << e.msg << endl;
+    	}
+	}   
+}
 
-![image](./.github/images/readmeProject/ForkProject.png)
+##Detecção
+uma função simples e rápida que verifica se o objeto existe na frame capturada.
+A detecção ou trigger é uma área retangular no centro da imagem que testa a média da cor/tom.
+Se a comparação for verdadeira a frame capturada contém o objeto e podemos inspecioná-la.
 
-### 2. **Configure o projeto para aceitar Issues**
+//Trigger
+float trigger(Mat &tframe)
+{
+try
+	{
+    	float resmean = 0;
+    	int x=200,y=200,w=300,h=110;
+    	Rect roi = Rect(x,y,w,h);
+    	Mat mask0 = Mat::zeros( tframe.size(), CV_8UC1 );
+    	rectangle(mask0,roi,255,1);
+    	Mat imRoi = frame(roi);
+    	Scalar tempMean = mean(imRoi);
+    	resmean = tempMean.val[0];
+    	if (resmean < 123)
+        		cout << "\n trigger mean: " << resmean << "\n";
+    	return resmean;
+    
+	}
+	catch (Exception &e)
+	{   
+     	cout << e.msg << endl;
+     	return 0;
+	}
+}
 
-O curso precisará criar Issues para criar os tópicos. Para isso deve ser necessário ativar as Issues.
+##Pré-processamento
+onde filtramos a imagem cinza e transformamos em uma imagem binária preto e branco, onde o objeto é branco e o fundo preto.
 
-- Dentro do repositório, entre em _Settings_
-- Ative o campo de Issues
+void processing(Mat &frame)
+{
+	try
+	{
+    	vector<Mat> bgr_planes;
+    	split( frame, bgr_planes );
+    	//Mat b = bgr_planes[0];
+    	//Mat g = bgr_planes[1];
+    	Mat r = bgr_planes[2];
+    	Mat mask   = Mat::zeros( frame.size(), CV_8UC1 );
+    	Mat res = Mat::zeros( frame.size(), CV_8UC1 );
+    	Mat open   = Mat::zeros( frame.size(), CV_8UC1 );
+    	Mat close  = Mat::zeros( frame.size(), CV_8UC1 );
+    	Mat thresh = Mat::zeros( frame.size(), CV_8UC1 );
+    	resize( r, mask, Size(), 0.5, 0.5, INTER_LINEAR );
+    	threshold(mask,thresh, 120, 255, THRESH_BINARY);
+	//cleanup
+    	Mat kernel1 = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
+    	morphologyEx(thresh,open, MORPH_OPEN, kernel1);
+    	morphologyEx(open,close, MORPH_CLOSE, kernel1);
+    	GaussianBlur(close,res, Size(3, 3), 3);
+    	resize( res, res, Size(), 2, 2, INTER_LINEAR );
+    	inspect(res, frame);
+	}
+	catch (Exception &e)
+	{   
+     	cout << e.msg << endl;
+	}
 
-  ![image](./.github/images/readmeProject/SettingsProject.png)
+}
 
-### 3. **Inicie o curso no Github Actions**
+##Canal  
+  Canal R – Os canais RGB, são imagens em tons de cinza com profundidade de 8 bits cada, neste caso escolhemos o RED que contém a melhor informação dos tons do biscoito, note que ele é cinza mas representa o vermelho de 0 á 100% na imagem colorida.
+  Threshold – Função que binariza a imagem, ou seja, transforma uma imagem em tons de cinza em uma imagem preto e branco, note que ainda existem alguns ruídos na imagem.
+  Cleanup – Remoção de ruídos (Reduz a imagem na metade do tamanho, passa filtros de transformação morfológica de abrir e fechar e depois amplia a imagem para o tamanho original).
 
-Agora é necessário ativar Ações dentro do Github para o andamento do curso.
+Outros exemplos de funções usadas para o processamento de imagens em OpenCV podem ser vistos no link abaixo:
 
-- Entre no menu _Actions_ e aceite a opção de uso de actions
+https://docs.opencv.org/3.1.0/d2/d96/tutorial_py_table_of_contents_imgproc.html
+  
 
-  ![image](./.github/images/readmeProject/HabilitarActions.png)
+##Biografias:
 
-- Após aceitar, será carregado todos ações configuradas para este guia. Entre no tópico "Iniciar Curso", clique em "_Run Worlflow_" e confirme.
+https://www.newtoncbraga.com.br/index.php/microcontroladores/143-tecnologia/17799-opencv-o-que-e-onde-usar-e-como-instalar-na-raspberry-pi-mic412.html
+https://www.embarcados.com.br/aplicacao-de-visao-computacional-com-opencv/
+https://blog.cedrotech.com/opencv-uma-breve-introducao-visao-computacional-com-python
+  
+  
+  
+ #Instalação OpenCV
+  
+##Ubuntu
 
-  ![image](./.github/images/readmeProject/IniciarCurso.png)
+https://docs.opencv.org/4.x/d7/d9f/tutorial_linux_install.html
+https://learnopencv.com/install-opencv3-on-ubuntu/
 
-  **Nota** : Durante o guia não será necessário entrar na Actions novamente, pois o progresso do curso será feito de forma automática.
+##Windows
 
-### 4. **Vamos começar**
+https://docs.opencv.org/4.x/d3/d52/tutorial_windows_install.html
+https://learnopencv.com/install-opencv3-on-windows/
 
-Pronto, você esta com tudo configurado aqui no Github para iniciar o curso!!
+##MacOS
 
-Entre na [_Issue Criada_](/../../issues/1), e siga as instruções para proseguir no curso.
-
----
-
-## Como contribuir com o guia
-
-Caso deseje contribuir com o curso, siga as instrusções dentro _.github/comoContrubuir_
+https://docs.opencv.org/4.x/d0/db2/tutorial_macos_install.html
