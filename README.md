@@ -16,6 +16,6 @@ Nesta outra imagem, há um grande ruído azul, mas não conseguimos identificar 
 
 O que é visão com Deep Learning?
 
-	Deep Learning é um paradigma de computação baseado no cérebro humano, que utiliza Redes Neurais Artificiais para extrair características e ao mesmo tempo classificar as entradas recebidas.
-	Com a utilização de redes neurais artificiais a visão computacional dá um grande salto, já que agora é possível treinar um modelo a partir de um conjunto de dados e obter resultados de forma bastante precisa.
-	Voltando ao exemplo do círculo vermelho, poderíamos pegar um grande conjunto de imagens em que o círculo vermelho está inserido e passar essas imagens para a rede neural, que depois de tentar classificar o círculo muitas vezes, finalmente iria aprender a identificar o círculo nos mais diversos ruídos, uma vez que o funcionamento dela se assemelha muito ao do cérebro humano, com uma grande quantidade de neurônios artificiais conectados entre si processando todas as informações captadas na imagem para gerar uma resposta.
+Deep Learning é um paradigma de computação baseado no cérebro humano, que utiliza Redes Neurais Artificiais para extrair características e ao mesmo tempo classificar as entradas recebidas.
+Com a utilização de redes neurais artificiais a visão computacional dá um grande salto, já que agora é possível treinar um modelo a partir de um conjunto de dados e obter resultados de forma bastante precisa.
+Voltando ao exemplo do círculo vermelho, poderíamos pegar um grande conjunto de imagens em que o círculo vermelho está inserido e passar essas imagens para a rede neural, que depois de tentar classificar o círculo muitas vezes, finalmente iria aprender a identificar o círculo nos mais diversos ruídos, uma vez que o funcionamento dela se assemelha muito ao do cérebro humano, com uma grande quantidade de neurônios artificiais conectados entre si processando todas as informações captadas na imagem para gerar uma resposta.
